@@ -1,28 +1,23 @@
 package com.viettel.vtskit.keycloak;
 
-import com.fasterxml.jackson.databind.util.TypeKey;
 import com.viettel.vtskit.keycloak.configuration.KeycloakProperties;
 import com.viettel.vtskit.keycloak.utils.KeycloakUtils;
 import org.json.JSONObject;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.RoleResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.Configuration;
-import org.keycloak.authorization.client.resource.ProtectionResource;
 import org.keycloak.authorization.client.util.Http;
 import org.keycloak.representations.AccessTokenResponse;
-import org.keycloak.representations.RefreshToken;
 import org.keycloak.representations.idm.ClientMappingsRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
@@ -88,6 +83,16 @@ public class KeycloakService {
             return null;
         }
         return userRepresentation.get(0);
+    }
+
+    //get all user
+    public List<UserRepresentation> getAllUser(){
+        validateEnableAdminOperation();
+        List<UserRepresentation> userRepresentation =  kcRealmResource.users().list();
+        if(userRepresentation.size()==0){
+            return null;
+        }
+        return userRepresentation;
     }
 
     private UserRepresentation getUserByEmail(String email){
@@ -265,9 +270,9 @@ public class KeycloakService {
      * get Role of User ( role client )
      * @param userId
      */
-    public List<RoleRepresentation> getRoleClientUser(String userId){
+    public Map<String, ClientMappingsRepresentation> getRoleClientUser(String userId){
         UserResource userResource=kcRealmResource.users().get(userId);
-        List<RoleRepresentation> roleRepresentationList = userResource.roles().getAll().getRealmMappings();
+        Map<String, ClientMappingsRepresentation> roleRepresentationList = userResource.roles().getAll().getClientMappings();
         return roleRepresentationList;
     }
     /**

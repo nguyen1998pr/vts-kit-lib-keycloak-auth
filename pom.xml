@@ -6,14 +6,14 @@
 
     <groupId>com.atviettelsolutions</groupId>
     <artifactId>vts-kit-lib-keycloak-auth</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.5</version>
 
     <properties>
         <spring-boot.version>2.6.6</spring-boot.version>
         <spring.version>5.3.19</spring.version>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.organization>${env.SONAR_ORGANIZATION}</sonar.organization>
-        <keycloak.version>18.0.0</keycloak.version>
+        <keycloak.version>20.0.3</keycloak.version>
     </properties>
 
     <licenses>
@@ -28,7 +28,7 @@
             <id>maven-releases</id>
             <name>Internal Releases</name>
             <!--suppress UnresolvedMavenProperty -->
-            <url>${env.NEXUS_REPO_RELEASE}</url>
+            <url>http://10.254.144.164:8081/repository/maven-public/</url>
         </repository>
     </distributionManagement>
 
@@ -167,5 +167,12 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>maven-releases</id>
+            <name>Internal Releases</name>
+            <url>http://10.254.144.164:8081/repository/maven-public/</url>
+        </repository>
+    </repositories>
 
 </project>

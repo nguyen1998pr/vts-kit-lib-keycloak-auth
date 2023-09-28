@@ -1,6 +1,8 @@
 package com.viettel.vtskit.keycloak.configuration;
 
+import com.viettel.vtskit.keycloak.KeycloakMultitenantService;
 import com.viettel.vtskit.keycloak.KeycloakService;
+import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -24,6 +26,8 @@ public class KeycloakAutoConfiguration {
     public KeycloakService keycloakService(){
         return new KeycloakService();
     }
+    @Bean
+    public KeycloakMultitenantService keycloakMultitenantService() {return new KeycloakMultitenantService();}
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "keycloak")
@@ -57,8 +61,8 @@ public class KeycloakAutoConfiguration {
         return keycloak.realm(keycloakProperties().getRealm());
     }
 
-    @Bean
-    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
-    }
+//    @Bean
+//    public KeycloakConfigResolver keycloakConfigResolver() {
+//        return new KeycloakSpringBootConfigResolver();
+//    }
 }
